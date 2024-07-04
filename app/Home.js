@@ -19,59 +19,60 @@ export default function Home({StatiGlobali}) {
 
 
   return (
-    <ScrollView style={GlobalStyles.container}>
+    <View style={GlobalStyles.container}>
       <View style={styles.containerScelta}>
         <Text style={styles.titolo}>Scegli l'opzione desiderata:</Text>
       </View>
+      <ScrollView>
+        {/* PRIMA RIGA DI SCHEDA */}
+        <View style={styles.rowContainer}>
+          <TouchableOpacity style={styles.cards}>
+            <Image source={Registro} style={styles.ImgSced} />
+            <Text style={styles.testo}>Compila Scheda Allenamento</Text>
+          </TouchableOpacity>
 
-      {/* PRIMA RIGA DI SCHEDA */}
-      <View style={styles.rowContainer}>
-        <TouchableOpacity style={styles.cards}>
-          <Image source={Registro} style={styles.ImgSced} />
-          <Text style={styles.testo}>Compila Scheda Allenamento</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.cards}>
+            <Image source={Scheda} style={styles.ImgSced} />
+            <Text style={styles.testoDx}>Schede Clienti</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={styles.cards}>
-          <Image source={Scheda} style={styles.ImgSced} />
-          <Text style={styles.testoDx}>Schede Clienti</Text>
-        </TouchableOpacity>
-      </View>
+        {/* SECONDA RIGA DI SCHEDA */}
+        <View style={styles.rowContainer}>
+          <TouchableOpacity
+            style={styles.cards}
+            onPress={() => navigation.navigate("CategorieEsercizi")}
+          >
+            <Image source={Scheda} style={styles.ImgSced} />
+            <Text style={styles.testoDx}>Categorie Esercizi</Text>
+          </TouchableOpacity>
 
-      {/* SECONDA RIGA DI SCHEDA */}
-      <View style={styles.rowContainer}>
-        <TouchableOpacity
-          style={styles.cards}
-          onPress={() => navigation.navigate("CategorieEsercizi")}
-        >
-          <Image source={Scheda} style={styles.ImgSced} />
-          <Text style={styles.testoDx}>Categorie Esercizi</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.cards}
+            onPress={() => navigation.navigate("AggiungiCategorie")}
+          >
+            <Image source={Scheda} style={styles.ImgSced} />
+            <Text style={styles.testo}>Aggiungi Nuove Cartegorie</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity
-          style={styles.cards}
-          onPress={() => navigation.navigate("AggiungiCategorie")}
-        >
-          <Image source={Scheda} style={styles.ImgSced} />
-          <Text style={styles.testo}>Aggiungi Nuove Cartegorie</Text>
-        </TouchableOpacity>
-      </View>
+        {/* TERZA RIGA DI SCHEDA */}
+        <View style={styles.rowContainer}>
+          <TouchableOpacity
+            style={styles.cards}
+            onPress={() => navigation.navigate("TuttiGliEsercizi")}
+          >
+            <Image source={Registro} style={styles.ImgSced} />
+            <Text style={styles.testo}>Tutti Gli Esercizi</Text>
+          </TouchableOpacity>
 
-      {/* TERZA RIGA DI SCHEDA */}
-      <View style={styles.rowContainer}>
-        <TouchableOpacity
-          style={styles.cards}
-          onPress={() => navigation.navigate("TuttiGliEsercizi")}
-        >
-          <Image source={Registro} style={styles.ImgSced} />
-          <Text style={styles.testo}>Tutti Gli Esercizi</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.cards}>
-          <Image source={Scheda} style={styles.ImgSced} />
-          <Text style={styles.testo}>Schede Clienti</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          <TouchableOpacity style={styles.cards}>
+            <Image source={Scheda} style={styles.ImgSced} />
+            <Text style={styles.testo}>Schede Clienti</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 

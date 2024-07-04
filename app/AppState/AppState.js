@@ -55,6 +55,8 @@ export default function AppState() {
     const eserciziTuttiRef = ref(db, "esercizi");
 
     get(eserciziTuttiRef).then((snapShot) => {
+
+      console.log(snapShot.val())
       if (snapShot.exists) {
         setEserciziDiTutti(snapShot.val())
 

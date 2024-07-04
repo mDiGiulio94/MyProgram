@@ -46,34 +46,36 @@ export default function CategorieEsercizi( { StatiGlobali }) {
     <>
       {categorieArray.length > 0 ? (
         <>
-          <ScrollView style={GlobalStyles.container}>
+          <View style={GlobalStyles.container}>
             <View style={styles.containerScelta}>
               <Text style={styles.titolo}>
                 Scegli la categoria da visualizzare:
               </Text>
             </View>
-
-            {categorieArray.map((categoria, index) => (
-              <View style={styles.rowContainer} key={index}>
-                <TouchableOpacity
-                  style={styles.cards}
-                  onPress={() =>
-                    navigation.navigate("EserciziDettaglio",
-                      // {
-                      // categoria,
-                      // }
-                    )
-                  }
-                >
-                  <Image
-                    source={{ uri: categoria.immagine }}
-                    style={styles.ImgSced}
-                  />
-                  <Text style={styles.testo}>{categoria.nome}</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
+            <ScrollView>
+              {categorieArray.map((categoria, index) => (
+                <View style={styles.rowContainer} key={index}>
+                  <TouchableOpacity
+                    style={styles.cards}
+                    onPress={() =>
+                      navigation.navigate(
+                        "EserciziDettaglio"
+                        // {
+                        // categoria,
+                        // }
+                      )
+                    }
+                  >
+                    <Image
+                      source={{ uri: categoria.immagine }}
+                      style={styles.ImgSced}
+                    />
+                    <Text style={styles.testo}>{categoria.nome}</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
           <Footer pag="categorie" />
         </>
       ) : (

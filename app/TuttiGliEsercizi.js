@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { Text,View, Image, StyleSheet,ScrollView,TouchableOpacity,} from "react-native";
 
 //Stili
 import { GlobalStyles } from "./GlobalStyles";
@@ -24,6 +17,20 @@ export default function TuttiGliEsercizi({ StatiGlobali }) {
 
   const { tuttiEsercizi, userId, PrendiEsercizi } = StatiGlobali;
 
+
+  const deleteEsercizio = (itemId) => {
+    const db = getDatabase()
+    const esercizioRef = ref(db, "users/" + userId + "/tuttiEsercizi/" + itemId)
+
+   console.log("questo è esercizioREf", esercizioRef)
+    remove(esercizioRef).then(() => {
+      console.log("esercizio rimosso con successo")
+      PrendiEsercizi()
+    }).catch((error) => {
+      console.error("errore nella rimozione: ", error)
+    })
+
+}
 
 
 
@@ -51,11 +58,11 @@ export default function TuttiGliEsercizi({ StatiGlobali }) {
                   <View style={styles.contenitoreBtn}>
                     <TouchableOpacity style={styles.Icone}>
                       <Text style={styles.testoCard}>Modifica</Text>
-                      <RemoveEsercizio name="file-remove-outline" size={30} />
+                      <RemoveEsercizio name="file-edit-outline" size={30} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.Icone}
-
+                      onPress={() => {deleteEsercizio(esercizio.id, esercizio.nome)}}
                     >
                       <Text style={styles.testoCard}>Rimuovi</Text>
                       <RemoveEsercizio name="file-remove-outline" size={30} />

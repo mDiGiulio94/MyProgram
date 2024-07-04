@@ -21,9 +21,9 @@ import { GlobalStyles } from "./GlobalStyles";
 
 export default function Login({ StatiGlobali }) {
 
-  const { setUserLoaded, tuttiEsercizi, eserciziDiTutti } = StatiGlobali
+  const { setUserLoaded, eserciziDiTutti } = StatiGlobali
 
-    console.log( "questi sono", eserciziDiTutti);
+console.log("questo è esercizi di tutti in login, ", eserciziDiTutti)
 
   //Variabili di stato campi Iscrizione e Login
   const [nome, setNome] = useState("");
@@ -72,25 +72,26 @@ export default function Login({ StatiGlobali }) {
         //connessione al database
         const db = getDatabase();
         //Scrittura nel database
-        set(ref(db, "users/" + datiUtente.user.uid),
+        set(
+          ref(db, "users/" + datiUtente.user.uid),
           //qui si specificano i campi aggiuntivi che si creeeranno al momento della registrazione
           {
             nome: nome,
             cognome: cognome,
             email: email,
             password: password,
-            tuttiEsercizi: eserciziDiTutti
-          })
+            tuttiEsercizi: eserciziDiTutti,
+          }
+        )
           //Se tutto va bene
           .then((resp) => {
-            console.log("dati salvati", resp)
+            console.log("dati salvati", resp);
             //setta che l'utente è stato registrato e loggato
             setUserLoaded(true);
-
           })
           .catch((error) => {
-          console.error("errore nel salvataggio utente", error)
-          })
+            console.error("errore nel salvataggio utente", error);
+          });
         const user = datiUtente.user;
         console.log("nuovo utente: ", user)
         handleLogin()
