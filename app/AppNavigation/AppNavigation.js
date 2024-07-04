@@ -11,6 +11,8 @@ import Footer from "../Components/Footer"
 import AggiungiCategorie from "../AggiungiCategorie"
 import Login from "../Login"
 import Header from "../Components/Header"
+import TuttiGliEsercizi from "../TuttiGliEsercizi"
+import AggiungiEsercizio from "../AggiungiEsercizio"
 
 //gestione Autenticazione
 import { auth } from "../Firebase";
@@ -58,6 +60,16 @@ export default function AppNavigation({ StatiGlobali }) {
                 <AggiungiCategorie {...props} StatiGlobali={StatiGlobali} />
               )}
             </Stack.Screen>
+            <Stack.Screen name="TuttiGliEsercizi">
+              {(props) => (
+                <TuttiGliEsercizi {...props} StatiGlobali={StatiGlobali} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="AggiungiEsercizio">
+              {(props) => (
+                <AggiungiEsercizio {...props} StatiGlobali={StatiGlobali} />
+              )}
+            </Stack.Screen>
           </Stack.Navigator>
         </>
       )}
@@ -70,7 +82,7 @@ export default function AppNavigation({ StatiGlobali }) {
         </Stack.Navigator>
       )}
 
-      <Footer />
+      <Footer StatiGlobali={StatiGlobali} />
     </SafeAreaView>
   );
 }

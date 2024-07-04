@@ -14,22 +14,42 @@ import { GlobalStyles } from "./GlobalStyles";
 export default function EserciziDettaglio() {
   //Navigazione
   const route = useRoute();
-  const { categoria } = route.params;
+  
+  // const { categoria } = route.params;
 
+
+/*
+
+
+
+QUESTO COMPONENTE FOOORSE è DA RIFARE TUTTO NON LO CANCELLARE MA PER IL MOMENTO ACCANNALO QUA PERCHé NON DEVE FARE QUELLO CHE FA
+
+
+
+
+
+
+
+
+
+
+
+
+*/
     return (
       <>
         <ScrollView style={GlobalStyles.container}>
           <View style={styles.containerScelta}>
-            <Text style={styles.titolo}>Elenco Esercizi Disponibili</Text>
+            <Text style={styles.titolo}>Dettaglio Categoria</Text>
           </View>
 
           <View style={styles.cardsContainer}>
-            {categoria.esercizi.map((esercizio, index) => (
-              <View style={styles.cards} key={index}>
-                <Image source={esercizio.immagine} style={styles.ImgSced} />
-                <Text style={styles.testo}>{esercizio.nome}</Text>
+           
+              <View style={styles.cards} >
+                {/* <Image source={esercizio.immagine} style={styles.ImgSced} />
+                <Text style={styles.testo}>{esercizio.nome}</Text> */}
               </View>
-            ))}
+          
           </View>
             </ScrollView>
             <Footer pag="esercizi" />

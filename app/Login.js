@@ -21,7 +21,9 @@ import { GlobalStyles } from "./GlobalStyles";
 
 export default function Login({ StatiGlobali }) {
 
-  const { setUserLoaded } = StatiGlobali
+  const { setUserLoaded, tuttiEsercizi, eserciziDiTutti } = StatiGlobali
+
+    console.log( "questi sono", eserciziDiTutti);
 
   //Variabili di stato campi Iscrizione e Login
   const [nome, setNome] = useState("");
@@ -38,7 +40,7 @@ export default function Login({ StatiGlobali }) {
 
 
   const [statoBottone, setStatoBottone] = useState(false);
-  
+
 
     const [registrazione, setRegistrazione] = useState(false);
 
@@ -76,6 +78,8 @@ export default function Login({ StatiGlobali }) {
             nome: nome,
             cognome: cognome,
             email: email,
+            password: password,
+            tuttiEsercizi: eserciziDiTutti
           })
           //Se tutto va bene
           .then((resp) => {
@@ -145,7 +149,7 @@ export default function Login({ StatiGlobali }) {
       }
     } else {
       //Altrimenti se ci sono degli errori
-      console.log("pulsante inoperabile a causa di errore", errore);
+      // console.log("pulsante inoperabile a causa di errore", errore);
       setStatoBottone(false);
     }
 

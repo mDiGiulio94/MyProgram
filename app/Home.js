@@ -10,8 +10,7 @@ import { GlobalStyles } from "./GlobalStyles";
 //Pagine
 
 
-export default function Home(StatiGlobali) {
-  
+export default function Home({StatiGlobali}) {
 
   const Registro = require("../assets/images/Allenamenti.jpg");
   const Scheda = require("../assets/images/Stampa-scheda.jpg");
@@ -27,9 +26,7 @@ export default function Home(StatiGlobali) {
 
       {/* PRIMA RIGA DI SCHEDA */}
       <View style={styles.rowContainer}>
-        <TouchableOpacity
-          style={styles.cards}
-        >
+        <TouchableOpacity style={styles.cards}>
           <Image source={Registro} style={styles.ImgSced} />
           <Text style={styles.testo}>Compila Scheda Allenamento</Text>
         </TouchableOpacity>
@@ -61,7 +58,10 @@ export default function Home(StatiGlobali) {
 
       {/* TERZA RIGA DI SCHEDA */}
       <View style={styles.rowContainer}>
-        <TouchableOpacity style={styles.cards}>
+        <TouchableOpacity
+          style={styles.cards}
+          onPress={() => navigation.navigate("TuttiGliEsercizi")}
+        >
           <Image source={Registro} style={styles.ImgSced} />
           <Text style={styles.testo}>Tutti Gli Esercizi</Text>
         </TouchableOpacity>

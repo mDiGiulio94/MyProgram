@@ -6,7 +6,7 @@ import { View,Text,Image,StyleSheet,ScrollView,TouchableOpacity,} from "react-na
 import AddList from "react-native-vector-icons/MaterialIcons"
 import RemoveList from "react-native-vector-icons/MaterialIcons";
 import AddEsercizio from "react-native-vector-icons/MaterialCommunityIcons";
-import RemoveEsercizio from "react-native-vector-icons/MaterialCommunityIcons";
+import RemoveEsercizio from "react-native-vector-icons/AntDesign";
 
 //navigazione
 import { useNavigation } from "@react-navigation/native";
@@ -28,19 +28,19 @@ export default function Footer({ pag }) {
             </TouchableOpacity>
             <TouchableOpacity style={styles.contenitore}>
               <RemoveList name="playlist-remove" size={30} />
-              <Text style={styles.text}>Add Category</Text>
+              <Text style={styles.text}>Remove Category</Text>
             </TouchableOpacity>
           </View>
         )}
         {pag === "esercizi" && (
           <View style={styles.footer}>
-            <TouchableOpacity style={styles.contenitore}>
+            <TouchableOpacity style={styles.contenitore} onPress={() => { navigation.navigate("AggiungiEsercizio") }}>
               <AddEsercizio name="file-plus-outline" size={30} />
-              <Text style={styles.text}>Add New Exercise</Text>
+              <Text style={styles.text}>Aggiungi Esercizio</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.contenitore}>
-              <RemoveEsercizio name="file-remove-outline" size={30} />
-              <Text style={styles.text}>Remove Exercise</Text>
+            <TouchableOpacity style={styles.contenitore} onPress={() => { navigation.navigate("Home") }}>
+              <RemoveEsercizio name="back" size={30} />
+              <Text style={styles.text}>Torna Indietro</Text>
             </TouchableOpacity>
           </View>
         )}
