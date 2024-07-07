@@ -17,47 +17,41 @@ export default function Home({StatiGlobali}) {
 
   const navigation = useNavigation();
 
+/*
+VEDI SE RIESCI A FARE IN MODO CHE LE IMMAGINI DEGLI ESERCIZI DI DEFAULT RIMANGANO INTOCCABILI
+
+*/
+
 
   return (
     <View style={GlobalStyles.container}>
       <View style={styles.containerScelta}>
         <Text style={styles.titolo}>Scegli l'opzione desiderata:</Text>
       </View>
-      <ScrollView>
+      <View>
         {/* PRIMA RIGA DI SCHEDA */}
         <View style={styles.rowContainer}>
-          <TouchableOpacity style={styles.cards}>
+          <TouchableOpacity
+            style={styles.cards}
+            onPress={() => navigation.navigate("CreaScheda")}
+          >
             <Image source={Registro} style={styles.ImgSced} />
-            <Text style={styles.testo}>Compila Scheda Allenamento</Text>
+            <Text style={styles.testo}>Nuova Scheda</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cards}>
+          <TouchableOpacity style={styles.cards} onPress={() => navigation.navigate("TutteLeSchede")}>
             <Image source={Scheda} style={styles.ImgSced} />
-            <Text style={styles.testoDx}>Schede Clienti</Text>
+            <Text style={styles.testo}>Tutte le Schede</Text>
           </TouchableOpacity>
         </View>
 
         {/* SECONDA RIGA DI SCHEDA */}
         <View style={styles.rowContainer}>
-          <TouchableOpacity
-            style={styles.cards}
-            onPress={() => navigation.navigate("CategorieEsercizi")}
-          >
+          <TouchableOpacity style={styles.cards}>
             <Image source={Scheda} style={styles.ImgSced} />
-            <Text style={styles.testoDx}>Categorie Esercizi</Text>
+            <Text style={styles.testo}>Gestione Clienti</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.cards}
-            onPress={() => navigation.navigate("AggiungiCategorie")}
-          >
-            <Image source={Scheda} style={styles.ImgSced} />
-            <Text style={styles.testo}>Aggiungi Nuove Cartegorie</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* TERZA RIGA DI SCHEDA */}
-        <View style={styles.rowContainer}>
           <TouchableOpacity
             style={styles.cards}
             onPress={() => navigation.navigate("TuttiGliEsercizi")}
@@ -65,13 +59,16 @@ export default function Home({StatiGlobali}) {
             <Image source={Registro} style={styles.ImgSced} />
             <Text style={styles.testo}>Tutti Gli Esercizi</Text>
           </TouchableOpacity>
+        </View>
 
+        {/* TERZA RIGA DI SCHEDA
+        <View style={styles.rowContainer}>
           <TouchableOpacity style={styles.cards}>
             <Image source={Scheda} style={styles.ImgSced} />
             <Text style={styles.testo}>Schede Clienti</Text>
           </TouchableOpacity>
-        </View>
-      </ScrollView>
+        </View> */}
+      </View>
     </View>
   );
 }

@@ -5,14 +5,17 @@ import { SafeAreaView } from "react-native";
 
 //Import pagine
 import Home from "../Home"
-import CategorieEsercizi from "../CategorieEsercizi"
 import EserciziDettaglio from "../EserciziDettaglio"
 import Footer from "../Components/Footer"
-import AggiungiCategorie from "../AggiungiCategorie"
 import Login from "../Login"
 import Header from "../Components/Header"
 import TuttiGliEsercizi from "../TuttiGliEsercizi"
 import AggiungiEsercizio from "../AggiungiEsercizio"
+import ModificaEsercizio from "../ModificaEsercizio"
+import CreaScheda from "../CreaScheda"
+import TutteLeSchede from "../TutteLeSchede"
+import ModificaScheda from "../ModificaScheda"
+import DettaglioScheda from "../DettaglioScheda"
 
 //gestione Autenticazione
 import { auth } from "../Firebase";
@@ -45,19 +48,9 @@ export default function AppNavigation({ StatiGlobali }) {
             <Stack.Screen name="Home">
               {(props) => <Home {...props} StatiGlobali={StatiGlobali} />}
             </Stack.Screen>
-            <Stack.Screen name="CategorieEsercizi">
-              {(props) => (
-                <CategorieEsercizi {...props} StatiGlobali={StatiGlobali} />
-              )}
-            </Stack.Screen>
             <Stack.Screen name="EserciziDettaglio">
               {(props) => (
                 <EserciziDettaglio {...props} StatiGlobali={StatiGlobali} />
-              )}
-            </Stack.Screen>
-            <Stack.Screen name="AggiungiCategorie">
-              {(props) => (
-                <AggiungiCategorie {...props} StatiGlobali={StatiGlobali} />
               )}
             </Stack.Screen>
             <Stack.Screen name="TuttiGliEsercizi">
@@ -68,6 +61,29 @@ export default function AppNavigation({ StatiGlobali }) {
             <Stack.Screen name="AggiungiEsercizio">
               {(props) => (
                 <AggiungiEsercizio {...props} StatiGlobali={StatiGlobali} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="ModificaEsercizio">
+              {(props) => (
+                <ModificaEsercizio {...props} StatiGlobali={StatiGlobali} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="CreaScheda">
+              {(props) => <CreaScheda {...props} StatiGlobali={StatiGlobali} />}
+            </Stack.Screen>
+            <Stack.Screen name="TutteLeSchede">
+              {(props) => (
+                <TutteLeSchede {...props} StatiGlobali={StatiGlobali} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="ModificaScheda">
+              {(props) => (
+                <ModificaScheda {...props} StatiGlobali={StatiGlobali} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="DettaglioScheda">
+              {(props) => (
+                <DettaglioScheda {...props} StatiGlobali={StatiGlobali} />
               )}
             </Stack.Screen>
           </Stack.Navigator>

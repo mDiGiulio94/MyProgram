@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text,View, Image, StyleSheet,ScrollView,TouchableOpacity,} from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 
 //Stili
 import { GlobalStyles } from "./GlobalStyles";
@@ -8,15 +15,14 @@ import { GlobalStyles } from "./GlobalStyles";
 import Footer from "./Components/Footer";
 
 //Icone
-import RemoveEsercizio from "react-native-vector-icons/MaterialCommunityIcons";
+import RemoveScheda from "react-native-vector-icons/MaterialCommunityIcons";
 
 //Import Firebase, del Database e delle Crud
 import { getDatabase, ref, remove } from "firebase/database";
 
 //Import dello storage il ref è per non condonderlo col ref del database
-import{  ref as storageRef, deleteObject } from 'firebase/storage'
+import { ref as storageRef, deleteObject } from "firebase/storage";
 import { storage } from "./Firebase";
-
 
 /*
 
@@ -25,33 +31,35 @@ PULSANTE SE IMMAGINE NON STA DOPO ID IL PERCORSO NON FUNZIONA
 
 */
 
-export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
+export default function TutteLeSchede({ StatiGlobali, navigation }) {
 
-  const { tuttiEsercizi, userId, PrendiEsercizi, setDettEsercizio } =
+
+    const { schede, userId, PrendiSchede, setDettScheda } =
     StatiGlobali;
 
-  const handleDettaglio = (esercizio) => {
-    setDettEsercizio(esercizio);
-    console.log(esercizio);
-    navigation.navigate("EserciziDettaglio");
+
+ console.log("questo è schede in tutteleschede", schede);
+
+
+  const handleDettaglio = (scheda) => {
+    setDettScheda(scheda);
+    console.log(scheda);
+    navigation.navigate("DettaglioScheda");
   };
 
-
-  const deleteEsercizio = (itemId, immagineUrl) => {
-
-
+  const deleteScheda = (itemId, immagineUrl) => {
     const db = getDatabase();
-    const esercizioRef = ref(
+    const schedeRef = ref(
       db,
-      "users/" + userId + "/tuttiEsercizi/" + itemId
+      "users/" + userId + "/SchedeAllenamenti/" + itemId
     );
 
-    console.log("questo è esercizioREf", esercizioRef);
-    remove(esercizioRef)
+    console.log("questo è schedeRef", schedeRef);
+    remove(schedeRef)
       .then(() => {
         console.log("esercizio rimosso con successo");
-        deleteImg(immagineUrl)
-        PrendiEsercizi();
+        deleteImg(immagineUrl);
+        PrendiSchede();
       })
       .catch((error) => {
         console.error("errore nella rimozione: ", error);
@@ -70,7 +78,7 @@ export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
   };
 
   //Trasformazione di oggetto in array, e lo prende anche se fosse oggetto vuoto
-  const eserciziArray = Object.values(tuttiEsercizi || {});
+  const eserciziArray = Object.values(schede || {});
 
   return (
     <>
@@ -78,57 +86,57 @@ export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
         <>
           <View style={GlobalStyles.container}>
             <View style={styles.containerScelta}>
-              <Text style={styles.titolo}>Tutti Gli Esercizi Disponibili</Text>
+              <Text style={styles.titolo}>Tutte le schede create</Text>
             </View>
             <ScrollView contentContainerStyle={styles.cardsContainer}>
-              {eserciziArray.map((esercizio, index) => (
+              {eserciziArray.map((scheda, index) => (
                 <View style={styles.cards} key={index}>
                   <TouchableOpacity
                     onPress={() => {
-                      handleDettaglio(esercizio);
+                      handleDettaglio(scheda);
                     }}
                   >
                     <Image
-                      source={{ uri: esercizio.immagine }}
+                      source={{ uri: scheda.immagine }}
                       style={styles.ImgSced}
                     />
 
                     <View>
-                      <Text style={styles.testo}>{esercizio.nome}</Text>
+                      <Text style={styles.testo}>{scheda.nome}</Text>
                     </View>
                   </TouchableOpacity>
                   <View style={styles.contenitoreBtn}>
                     <TouchableOpacity
                       style={styles.Icone}
                       onPress={() => {
-                        navigation.navigate("ModificaEsercizio", {
-                          esercizio: esercizio,
+                        navigation.navigate("ModificaScheda", {
+                          scheda: scheda,
                         });
                       }}
                     >
                       <Text style={styles.testoCard}>Modifica</Text>
-                      <RemoveEsercizio name="file-edit-outline" size={30} />
+                      <RemoveScheda name="file-edit-outline" size={30} />
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.Icone}
                       onPress={() => {
-                        deleteEsercizio(
-                          esercizio.id,
-                          esercizio.immagine,
-                          esercizio.nome
+                        deleteScheda(
+                          scheda.id,
+                          scheda.immagine,
+                          scheda.nome
                         );
                       }}
                     >
                       <Text style={styles.testoCard}>Rimuovi</Text>
-                      <RemoveEsercizio name="file-remove-outline" size={30} />
+                      <RemoveScheda name="file-remove-outline" size={30} />
                     </TouchableOpacity>
                   </View>
                 </View>
               ))}
             </ScrollView>
           </View>
-          <Footer pag="esercizi" />
+          <Footer pag="TutteLeSchede" />
         </>
       ) : (
         <>
@@ -136,15 +144,15 @@ export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
             <TouchableOpacity
               style={[styles.vuoto]}
               onPress={() => {
-                navigation.navigate("AggiungiEsercizio");
+                navigation.navigate("CreaScheda");
               }}
             >
               <Text style={styles.titolo}>
-                Non ci sono esercizi, poi iniziare inserendoli qui!
+                Non ci sono schede, poi iniziare inserendole qui!
               </Text>
             </TouchableOpacity>
           </View>
-          <Footer pag="esercizi" />
+          <Footer pag="TutteLeSchede" />
         </>
       )}
     </>
@@ -166,7 +174,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   cards: {
-    width: "45%",
+    width: "100%",
     borderColor: "white",
     borderWidth: 2,
     marginBottom: 20,

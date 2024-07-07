@@ -1,25 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
   Image,
   StyleSheet,
+  ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 
+//useRoute per il passaggio di dati
+import { useRoute } from "@react-navigation/native";
+
 //Stili
 import { GlobalStyles } from "./GlobalStyles";
 
-import { getDatabase, ref, set, push } from "firebase/database";
+import { getDatabase, ref, update } from "firebase/database";
 
 //navigazione
 import { useNavigation } from "@react-navigation/native";
 
+//Import footer
+import Footer from "./Components/Footer";
+
 //Import image picker di expo
 import * as ImagePicker from "expo-image-picker";
+
+//Import icone
+import AddImmagine from "react-native-vector-icons/MaterialIcons";
 
 //Import dello storage il ref è per non condonderlo col ref del database
 import {
@@ -30,13 +40,11 @@ import {
 } from "firebase/storage";
 import { storage } from "./Firebase";
 
-//Import Footer
-import Footer from "./Components/Footer";
+export default function ModificaEsercizio({ StatiGlobali }) {
+  const route = useRoute();
 
-//Import icone
-import AddImmagine from "react-native-vector-icons/MaterialIcons";
+  const { esercizio } = route.params;
 
-export default function AggiungiEsercizio({ StatiGlobali }) {
   const { userId, PrendiEsercizi } = StatiGlobali;
 
   const navigation = useNavigation();
@@ -44,45 +52,47 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
   //Variabili di stato
   const [nome, setNome] = useState("");
   const [descrizione, setDescrizione] = useState("");
-  const [immagineUrl, setImmagineUrl] = useState("");
-
-  //VARIABILE DI STATO CHE MEMORIZZA L'IMMAGINE PRESA DALL'UTENTE
+  const [immagine, setImmagine] = useState("");
   const [newImage, setNewImage] = useState(null);
 
   // Metodo per aggiunta di un nuovo esercizio
-  const salvaEsercizio = async () => {
+  const modificaEsercizio = async () => {
     try {
-
-      // Se c'è una nuova immagine, caricala e aggiorna l'URL
-      let imageUrl = immagineUrl;
-      if (newImage) {
-        imageUrl = await uploadImage(newImage.uri);
-      }
-
       // instaurare connessione al database
       const db = getDatabase();
       // crea la reference
-      const esercizioRef = ref(db, "users/" + userId + "/tuttiEsercizi");
-      // crea il nuovo id
-      const newEsercizioRef = push(esercizioRef);
+      const esercizioRef = ref(
+        db,
+        "users/" + userId + "/tuttiEsercizi/" + esercizio.id
+      );
 
-      // Il push necessita di una ref e un body quindi
+      // Se c'è una nuova immagine, caricala e aggiorna l'URL
+      let imageUrl = immagine;
+      if (newImage) {
+        imageUrl = await uploadImage(newImage.uri);
+
+        // Elimina l'immagine precedente solo dopo aver caricato la nuova immagine con successo
+        if (esercizio.immagine) {
+          await deleteImg(esercizio.immagine);
+        }
+      }
+
+      // update necessita di una ref e un body quindi
       const body = {
-        id: newEsercizioRef.key.toString(),
         nome: nome,
         descrizione: descrizione,
         immagine: imageUrl,
         data: Date.now(),
       };
 
-      await set(newEsercizioRef, body)
+      await update(esercizioRef, body)
         .then(() => {
           console.log("dati esercizio caricati");
           PrendiEsercizi();
           navigation.navigate("TuttiGliEsercizi");
         })
         .catch((error) => {
-          console.error(error);
+          console.error("c'è stato errore, ", error);
         });
     } catch (error) {
       console.error("errore nel salvataggio", error);
@@ -102,12 +112,9 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
     }
   };
 
-  //Metodo per l'upload dell'immagine
   const uploadImage = async (uri) => {
     try {
-      //aspetta che abbia funzionato la chiamata verso l'uri
       const response = await fetch(uri);
-      //blob contenitore di grandi quantità di dati di qualsiasi genere in formato binario
       const blob = await response.blob();
       const filename = uri.substring(uri.lastIndexOf("/") + 1);
       const storageReference = storageRef(
@@ -116,10 +123,10 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
       );
       await uploadBytes(storageReference, blob);
       const url = await getDownloadURL(storageReference);
-      console.log("immagine caricata", url);
+      console.log("Immagine caricata", url);
       return url;
     } catch (error) {
-      console.error("errore nel caricamento immagine: ", error);
+      console.error("Errore nel caricamento immagine: ", error);
       throw error;
     }
   };
@@ -130,22 +137,17 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
       const imgRef = storageRef(storage, immagineUrl);
       await deleteObject(imgRef);
       console.log("immagine eliminata dallo storage");
-      setImmagineUrl(null);
     } catch (error) {
       console.error("errore nell'eliminazione", error);
     }
   };
 
-  //Metodo per cancellare tutti i campi del form
-  const svuotaCampi = () => {
-    setDescrizione("");
-    setNome("");
-    setImmagineUrl("");
-    if (immagineUrl) {
-      deleteImg(immagineUrl);
-    }
-    setNewImage(null); // Resetta anche la nuova immagine
-  };
+  //useEffect che al caricamento della pagina prende i parametri passati dalla pagina tutti esercizi e li inserisce nei campi form
+  useEffect(() => {
+    setNome(esercizio.nome);
+    setImmagine(esercizio.immagine);
+    setDescrizione(esercizio.descrizione);
+  }, []);
 
   return (
     <>
@@ -153,11 +155,11 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
         <View style={GlobalStyles.container}>
           <View style={[styles.container, GlobalStyles.container]}>
             <View style={styles.contenitoreRegistrazione}>
-              {/*FORM DI AGGIUNTA ESERCIZIO  */}
+              {/*FORM DI MODIFICA ESERCIZIO  */}
 
               <View style={styles.containerScelta}>
                 <Text style={styles.titolo}>
-                  Compila i dati per il nuovo esercizio
+                  Personalizza il nuovo esercizio
                 </Text>
               </View>
 
@@ -171,8 +173,8 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
               <View style={styles.aggiuntaImg}>
                 <TextInput
                   style={[GlobalStyles.input, styles.inputImg]}
-                  value={newImage ? newImage.uri : immagineUrl}
-                  onChangeText={setImmagineUrl}
+                  value={newImage ? newImage.uri : immagine}
+                  onChangeText={setImmagine}
                   placeholder="Aggiungi Url"
                 />
                 <TouchableOpacity onPress={selezioneImmagine}>
@@ -191,15 +193,14 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
                 multiline={true}
               />
 
-              <View style={styles.containerBottoni}>
-                <TouchableOpacity style={[styles.btn]} onPress={salvaEsercizio}>
+              <TouchableOpacity
+                style={[styles.btn]}
+                onPress={modificaEsercizio}
+              >
+                <View>
                   <Text style={styles.testoBtn}>Aggiungi</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={[styles.btn]} onPress={svuotaCampi}>
-                  <Text style={styles.testoBtn}>Svuota</Text>
-                </TouchableOpacity>
-              </View>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -233,10 +234,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 
-  containerBottoni: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
   //Testo
 
   testoBtn: {
@@ -258,10 +255,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#1A1A2E",
   },
-  text: {
-    fontSize: 12,
-    fontWeight: "bold",
-  },
 
   //Bottone
   btn: {
@@ -269,18 +262,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 14,
     borderRadius: 10,
-    width: "45%",
+    width: "50%",
     alignSelf: "center",
   },
 
-  //INPUT
-
   inputTesto: {
     height: 150,
-  },
-
-  inputImg: {
-    width: "85%",
   },
 
   // Icona
@@ -288,5 +275,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "white",
     marginTop: 15,
+  },
+
+  inputImg: {
+    width: "85%",
   },
 });

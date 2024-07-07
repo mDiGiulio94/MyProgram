@@ -1,7 +1,13 @@
 //Librerie e Componenti
 import React from "react";
-import { View,Text,Image,StyleSheet,ScrollView,TouchableOpacity,} from "react-native";
-
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 
 //pagine
 import Footer from "./Components/Footer";
@@ -9,34 +15,36 @@ import Footer from "./Components/Footer";
 //Stili
 import { GlobalStyles } from "./GlobalStyles";
 
-export default function EserciziDettaglio({StatiGlobali}) {
+export default function DettaglioScheda({ StatiGlobali }) {
+ 
+  const { dettScheda } = StatiGlobali;
+  
+  /*
+  Chiedi a danilo come differenziare i vari footer
+  
+  */
 
+  return (
+    <>
+      <ScrollView style={GlobalStyles.container}>
+        <View style={styles.containerScelta}>
+          <Text style={styles.titolo}>Dettaglio Scheda</Text>
+        </View>
 
-  const { dettEsercizio } = StatiGlobali
-
-
-
-    return (
-      <>
-        <ScrollView style={GlobalStyles.container}>
-          <View style={styles.containerScelta}>
-            <Text style={styles.titolo}>Dettaglio Esercizio</Text>
+        <View style={styles.cardsContainer}>
+          <View style={styles.cards}>
+            <Image
+              source={{ uri: dettScheda.immagine }}
+              style={styles.ImgSced}
+            />
+            <Text style={styles.testo}>{dettScheda.nome}</Text>
+            <Text>{dettScheda.descrizione}</Text>
           </View>
-
-          <View style={styles.cardsContainer}>
-            <View style={styles.cards}>
-              <Image
-                source={{ uri: dettEsercizio.immagine }}
-                style={styles.ImgSced}
-              />
-              <Text style={styles.testo}>{dettEsercizio.nome}</Text>
-              <Text>{dettEsercizio.descrizione}</Text>
-            </View>
-          </View>
-        </ScrollView>
-        <Footer pag="Dettaglioesercizi" dettEsercizio={dettEsercizio} />
-      </>
-    );
+        </View>
+      </ScrollView>
+      <Footer pag="DettaglioScheda" dettScheda={dettScheda} />
+    </>
+  );
 }
 
 const styles = StyleSheet.create({

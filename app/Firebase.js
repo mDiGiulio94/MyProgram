@@ -5,8 +5,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { firebaseConfig } from "../firebase-config";
 
-//Variabile che memorizzerà il serivizio di autenticazione di Firebase
-let auth
+//Import dello storage
+import { getStorage } from "firebase/storage";
+
+//Variabile che memorizzerà il serivizio di autenticazione di Firebase e lo storage
+let auth, storage
 
 //se nessuna app è avviata
 if (getApps().length === 0) {
@@ -17,7 +20,7 @@ if (getApps().length === 0) {
     auth = initializeAuth(app, {
         persistence: getReactNativePersistence(AsyncStorage)
     } )
-
+storage = getStorage(app)
 
 }
 //Se l'applicazione è già inizializzata prendi la sessione corrente
@@ -29,6 +32,7 @@ else {
     auth = getAuth(app) || initializeAuth(app, {
         persistence: getReactNativePersistence(AsyncStorage)
     })
+    storage = getStorage(app)
 }
 
-export { auth }
+export { auth, storage }

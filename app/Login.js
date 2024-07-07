@@ -21,9 +21,8 @@ import { GlobalStyles } from "./GlobalStyles";
 
 export default function Login({ StatiGlobali }) {
 
-  const { setUserLoaded, eserciziDiTutti } = StatiGlobali
+  const { setUserLoaded, tuttiEsercizi } = StatiGlobali
 
-console.log("questo è esercizi di tutti in login, ", eserciziDiTutti)
 
   //Variabili di stato campi Iscrizione e Login
   const [nome, setNome] = useState("");
@@ -80,7 +79,6 @@ console.log("questo è esercizi di tutti in login, ", eserciziDiTutti)
             cognome: cognome,
             email: email,
             password: password,
-            tuttiEsercizi: eserciziDiTutti,
           }
         )
           //Se tutto va bene
@@ -252,7 +250,6 @@ console.log("questo è esercizi di tutti in login, ", eserciziDiTutti)
 
                   <TouchableOpacity
                     style={styles.btn}
-          
                     onPress={handleLogin}
                   >
                     <Text style={styles.testoBtn}>Conferma Log-in</Text>

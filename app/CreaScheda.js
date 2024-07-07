@@ -36,8 +36,10 @@ import Footer from "./Components/Footer";
 //Import icone
 import AddImmagine from "react-native-vector-icons/MaterialIcons";
 
-export default function AggiungiEsercizio({ StatiGlobali }) {
-  const { userId, PrendiEsercizi } = StatiGlobali;
+export default function CreaScheda({ StatiGlobali }) {
+
+
+    const { userId, PrendiSchede } = StatiGlobali;
 
   const navigation = useNavigation();
 
@@ -50,9 +52,8 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
   const [newImage, setNewImage] = useState(null);
 
   // Metodo per aggiunta di un nuovo esercizio
-  const salvaEsercizio = async () => {
+  const salvaScheda = async () => {
     try {
-
       // Se c'è una nuova immagine, caricala e aggiorna l'URL
       let imageUrl = immagineUrl;
       if (newImage) {
@@ -62,24 +63,24 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
       // instaurare connessione al database
       const db = getDatabase();
       // crea la reference
-      const esercizioRef = ref(db, "users/" + userId + "/tuttiEsercizi");
+      const schedaRef = ref(db, "users/" + userId + "/SchedeAllenamenti");
       // crea il nuovo id
-      const newEsercizioRef = push(esercizioRef);
+      const newSchedaRef = push(schedaRef);
 
       // Il push necessita di una ref e un body quindi
       const body = {
-        id: newEsercizioRef.key.toString(),
+        id: newSchedaRef.key.toString(),
         nome: nome,
         descrizione: descrizione,
         immagine: imageUrl,
         data: Date.now(),
       };
 
-      await set(newEsercizioRef, body)
+      await set(newSchedaRef, body)
         .then(() => {
-          console.log("dati esercizio caricati");
-          PrendiEsercizi();
-          navigation.navigate("TuttiGliEsercizi");
+          console.log("dati scheda caricati");
+          PrendiSchede();
+          navigation.navigate("TutteLeSchede");
         })
         .catch((error) => {
           console.error(error);
@@ -112,7 +113,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
       const filename = uri.substring(uri.lastIndexOf("/") + 1);
       const storageReference = storageRef(
         storage,
-        `imagesEsercizi/${filename}`
+        `imagesSchede/${filename}`
       );
       await uploadBytes(storageReference, blob);
       const url = await getDownloadURL(storageReference);
@@ -153,11 +154,12 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
         <View style={GlobalStyles.container}>
           <View style={[styles.container, GlobalStyles.container]}>
             <View style={styles.contenitoreRegistrazione}>
-              {/*FORM DI AGGIUNTA ESERCIZIO  */}
+
+                          {/*FORM DI CREAZIONE SCHEDA  */}
 
               <View style={styles.containerScelta}>
                 <Text style={styles.titolo}>
-                  Compila i dati per il nuovo esercizio
+                  Compila la nuova scheda
                 </Text>
               </View>
 
@@ -165,7 +167,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
                 style={GlobalStyles.input}
                 value={nome}
                 onChangeText={setNome}
-                placeholder="Nome Esercizio"
+                placeholder="Titolo scheda"
               />
 
               <View style={styles.aggiuntaImg}>
@@ -192,7 +194,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
               />
 
               <View style={styles.containerBottoni}>
-                <TouchableOpacity style={[styles.btn]} onPress={salvaEsercizio}>
+                <TouchableOpacity style={[styles.btn]} onPress={salvaScheda}>
                   <Text style={styles.testoBtn}>Aggiungi</Text>
                 </TouchableOpacity>
 
@@ -204,7 +206,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Footer pag="Nuovoesercizio" />
+      <Footer pag="NuovaScheda" />
     </>
   );
 }
