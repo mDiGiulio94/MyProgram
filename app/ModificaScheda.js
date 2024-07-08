@@ -52,9 +52,18 @@ export default function ModificaScheda({ StatiGlobali }) {
   const navigation = useNavigation();
 
   //Variabili di stato
-  const [nome, setNome] = useState("");
-  const [descrizione, setDescrizione] = useState("");
-  const [immagine, setImmagine] = useState("");
+  const [nomeCliente, setNomeCliente] = useState("");
+  const [tipsFinali, setTipsFinali] = useState("");
+    const [immagine, setImmagine] = useState("");
+     const [tipologia, setTipologia] = useState("");
+     const [seduteSettimanali, setSeduteSettimanali] = useState("");
+     const [durata, setDurata] = useState("");
+     const [scadenza, setScadenza] = useState("");
+     const [personal, setPersonal] = useState("");
+
+
+
+
   const [newImage, setNewImage] = useState(null);
 
   // Metodo per aggiunta di un nuovo scheda
@@ -81,9 +90,14 @@ export default function ModificaScheda({ StatiGlobali }) {
 
       // update necessita di una ref e un body quindi
       const body = {
-        nome: nome,
-        descrizione: descrizione,
+        nomeCliente: nomeCliente,
+        tipsFinali: tipsFinali,
         immagine: imageUrl,
+        tipologia: tipologia,
+        seduteSettimanali: seduteSettimanali,
+        durata: durata,
+        scadenza: scadenza,
+        personal: personal,
         data: Date.now(),
       };
 
@@ -91,7 +105,7 @@ export default function ModificaScheda({ StatiGlobali }) {
         .then(() => {
           console.log("dati scheda caricati");
           PrendiSchede();
-          navigation.navigate("TuttiGliEsercizi");
+          navigation.navigate("TutteLeSchede");
         })
         .catch((error) => {
           console.error("c'è stato errore, ", error);
@@ -146,14 +160,18 @@ export default function ModificaScheda({ StatiGlobali }) {
 
   //useEffect che al caricamento della pagina prende i parametri passati dalla pagina tutti esercizi e li inserisce nei campi form
   useEffect(() => {
-    setNome(scheda.nome);
+    setNomeCliente(scheda.nomeCliente);
     setImmagine(scheda.immagine);
-    setDescrizione(scheda.descrizione);
+      setTipsFinali(scheda.tipsFinali);
+      setTipologia(scheda.tipologia);
+       setSeduteSettimanali(scheda.seduteSettimanali);
+       setDurata(scheda.durata);
+       setScadenza(scheda.scadenza);
+       setPersonal(scheda.personal);
   }, []);
 
   return (
-      <>
-
+    <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={GlobalStyles.container}>
           <View style={[styles.container, GlobalStyles.container]}>
@@ -161,16 +179,49 @@ export default function ModificaScheda({ StatiGlobali }) {
               {/*FORM DI MODIFICA scheda  */}
 
               <View style={styles.containerScelta}>
-                <Text style={styles.titolo}>
-                  Personalizza il nuovo scheda
-                </Text>
+                <Text style={styles.titolo}>Personalizza il nuovo scheda</Text>
               </View>
 
               <TextInput
                 style={GlobalStyles.input}
-                value={nome}
-                onChangeText={setNome}
-                placeholder="Nome scheda"
+                value={nomeCliente}
+                onChangeText={setNomeCliente}
+                placeholder="Nome Cliente"
+              />
+              <TextInput
+                style={GlobalStyles.input}
+                value={tipologia}
+                onChangeText={setTipologia}
+                placeholder="Tipo di allenamento"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={seduteSettimanali}
+                onChangeText={setSeduteSettimanali}
+                              placeholder="Sedute settimanali"
+                                 keyboardType="numeric"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={durata}
+                onChangeText={setDurata}
+                placeholder="Durata allenamento"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={scadenza}
+                onChangeText={setScadenza}
+                placeholder="Data prevista fine scheda"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={personal}
+                onChangeText={setPersonal}
+                placeholder="Nome Personal Trainer"
               />
 
               <View style={styles.aggiuntaImg}>
@@ -190,16 +241,13 @@ export default function ModificaScheda({ StatiGlobali }) {
 
               <TextInput
                 style={[GlobalStyles.input, styles.inputTesto]}
-                value={descrizione}
-                onChangeText={setDescrizione}
+                value={tipsFinali}
+                onChangeText={setTipsFinali}
                 placeholder="Breve Descrizione"
                 multiline={true}
               />
 
-              <TouchableOpacity
-                style={[styles.btn]}
-                onPress={modificaSchede}
-              >
+              <TouchableOpacity style={[styles.btn]} onPress={modificaSchede}>
                 <View>
                   <Text style={styles.testoBtn}>Aggiungi</Text>
                 </View>

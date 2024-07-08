@@ -15,9 +15,20 @@ import Footer from "./Components/Footer";
 //Stili
 import { GlobalStyles } from "./GlobalStyles";
 
+
+//Import navigazione
+import { useNavigation } from "@react-navigation/native";
+
+import MyTable from "./Components/Tabella"
+
 export default function DettaglioScheda({ StatiGlobali }) {
  
   const { dettScheda } = StatiGlobali;
+
+
+  const navigation = useNavigation()
+
+
   
   /*
   Chiedi a danilo come differenziare i vari footer
@@ -26,23 +37,20 @@ export default function DettaglioScheda({ StatiGlobali }) {
 
   return (
     <>
-      <ScrollView style={GlobalStyles.container}>
+      <View style={GlobalStyles.container}>
         <View style={styles.containerScelta}>
           <Text style={styles.titolo}>Dettaglio Scheda</Text>
         </View>
+        <ScrollView>
+          <MyTable dettScheda={dettScheda} />
+        </ScrollView>
+      </View>
 
-        <View style={styles.cardsContainer}>
-          <View style={styles.cards}>
-            <Image
-              source={{ uri: dettScheda.immagine }}
-              style={styles.ImgSced}
-            />
-            <Text style={styles.testo}>{dettScheda.nome}</Text>
-            <Text>{dettScheda.descrizione}</Text>
-          </View>
-        </View>
-      </ScrollView>
-      <Footer pag="DettaglioScheda" dettScheda={dettScheda} />
+      <Footer
+        pag="DettaglioScheda"
+        dettScheda={dettScheda}
+  
+      />
     </>
   );
 }
@@ -52,6 +60,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderColor: "white",
     borderWidth: 2,
+    marginBottom: 10,
   },
   cardsContainer: {
     flexDirection: "row",

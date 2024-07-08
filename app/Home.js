@@ -10,7 +10,7 @@ import { GlobalStyles } from "./GlobalStyles";
 //Pagine
 
 
-export default function Home({StatiGlobali}) {
+export default function Home({pag}) {
 
   const Registro = require("../assets/images/Allenamenti.jpg");
   const Scheda = require("../assets/images/Stampa-scheda.jpg");
@@ -24,6 +24,8 @@ VEDI SE RIESCI A FARE IN MODO CHE LE IMMAGINI DEGLI ESERCIZI DI DEFAULT RIMANGAN
 
 
   return (
+
+    
     <View style={GlobalStyles.container}>
       <View style={styles.containerScelta}>
         <Text style={styles.titolo}>Scegli l'opzione desiderata:</Text>

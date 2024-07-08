@@ -102,7 +102,7 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
                     />
 
                     <View>
-                      <Text style={styles.testo}>{scheda.nome}</Text>
+                      <Text style={styles.testo}>{scheda.tipologia}</Text>
                     </View>
                   </TouchableOpacity>
                   <View style={styles.contenitoreBtn}>

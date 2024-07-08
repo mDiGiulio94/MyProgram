@@ -33,6 +33,9 @@ import { storage } from "./Firebase";
 //Import Footer
 import Footer from "./Components/Footer";
 
+//useRoute per il passaggio di dati
+import { useRoute } from "@react-navigation/native";
+
 //Import icone
 import AddImmagine from "react-native-vector-icons/MaterialIcons";
 
@@ -41,10 +44,16 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
 
   const navigation = useNavigation();
 
+  //route per differenziare l'accesso se da tutti gli esercizi o se da dettaglio scheda
+  const route = useRoute();
+  const fromDettaglioScheda = route.params?.fromDettaglioScheda || false;
+
   //Variabili di stato
   const [nome, setNome] = useState("");
   const [descrizione, setDescrizione] = useState("");
   const [immagineUrl, setImmagineUrl] = useState("");
+  const [serie, setSerie] = useState("");
+  const [ripetizioni, setRipetizioni] = useState("")
 
   //VARIABILE DI STATO CHE MEMORIZZA L'IMMAGINE PRESA DALL'UTENTE
   const [newImage, setNewImage] = useState(null);
@@ -72,6 +81,8 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
         nome: nome,
         descrizione: descrizione,
         immagine: imageUrl,
+        serie: serie,
+        ripetizioni: ripetizioni,
         data: Date.now(),
       };
 
@@ -140,6 +151,8 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
   const svuotaCampi = () => {
     setDescrizione("");
     setNome("");
+    setSerie("");
+    setRipetizioni("");
     setImmagineUrl("");
     if (immagineUrl) {
       deleteImg(immagineUrl);
@@ -167,7 +180,25 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
                 onChangeText={setNome}
                 placeholder="Nome Esercizio"
               />
+              {fromDettaglioScheda && (
+                <>
+                  <TextInput
+                    style={GlobalStyles.input}
+                    value={serie}
+                    onChangeText={setSerie}
+                    placeholder="Numero serie"
+                    keyboardType="numeric"
+                  />
 
+                  <TextInput
+                    style={GlobalStyles.input}
+                    value={ripetizioni}
+                    onChangeText={setRipetizioni}
+                    placeholder="Numero Ripetizioni"
+                    keyboardType="numeric"
+                  />
+                </>
+              )}
               <View style={styles.aggiuntaImg}>
                 <TextInput
                   style={[GlobalStyles.input, styles.inputImg]}
@@ -204,7 +235,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Footer pag="Nuovoesercizio" />
+      <Footer pag="Nuovoesercizio" fromDettaglioScheda={fromDettaglioScheda}/>
     </>
   );
 }

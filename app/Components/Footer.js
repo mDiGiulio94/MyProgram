@@ -13,7 +13,7 @@ import List from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 
 
-export default function Footer({ pag, dettEsercizio, dettScheda }) {
+export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioScheda }) {
 
  
 
@@ -86,17 +86,36 @@ export default function Footer({ pag, dettEsercizio, dettScheda }) {
               <AddEsercizio name="home" size={30} />
               <Text style={styles.text}>Home</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.contenitore}
-              onPress={() => {
-                navigation.navigate("TuttiGliEsercizi");
-              }}
-            >
-              <RemoveEsercizio name="back" size={30} />
-              <Text style={styles.text}>Torna Indietro</Text>
-            </TouchableOpacity>
+            
+            
+            {fromDettaglioScheda && (
+              <TouchableOpacity
+                style={styles.contenitore}
+                onPress={() => {
+                  navigation.navigate("DettaglioScheda");
+                }}
+              >
+                <RemoveEsercizio name="back" size={30} />
+                <Text style={styles.text}>Torna Indietro</Text>
+              </TouchableOpacity>
+            )}
+
+            {!fromDettaglioScheda && (
+              <TouchableOpacity
+                style={styles.contenitore}
+                onPress={() => {
+                  navigation.navigate("TuttiGliEsercizi");
+                }}
+              >
+                <RemoveEsercizio name="back" size={30} />
+                <Text style={styles.text}>Torna Indietro</Text>
+              </TouchableOpacity>
+            )}
           </View>
         )}
+
+        {/* FOOTER NUOVA SCHEDA */}
+
         {pag === "NuovaScheda" && (
           <View style={styles.footer}>
             <TouchableOpacity
@@ -119,6 +138,9 @@ export default function Footer({ pag, dettEsercizio, dettScheda }) {
             </TouchableOpacity>
           </View>
         )}
+
+        {/* FOOTER TUTTE LE SCHEDE */}
+
         {pag === "TutteLeSchede" && (
           <View style={styles.footer}>
             <TouchableOpacity
@@ -141,6 +163,9 @@ export default function Footer({ pag, dettEsercizio, dettScheda }) {
             </TouchableOpacity>
           </View>
         )}
+
+        {/* FOOTER MODIFICA SCHEDA */}
+
         {pag === "ModificaScheda" && (
           <View style={styles.footer}>
             <TouchableOpacity
@@ -165,6 +190,7 @@ export default function Footer({ pag, dettEsercizio, dettScheda }) {
         )}
 
         {/* Footer dettaglio Scheda */}
+
         {pag === "DettaglioScheda" && (
           <View style={styles.footer}>
             <TouchableOpacity

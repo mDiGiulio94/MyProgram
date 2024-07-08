@@ -7,7 +7,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TextInput,
-  TouchableOpacity,
+    TouchableOpacity,
+  ScrollView,
 } from "react-native";
 
 //Stili
@@ -36,6 +37,7 @@ import Footer from "./Components/Footer";
 //Import icone
 import AddImmagine from "react-native-vector-icons/MaterialIcons";
 
+
 export default function CreaScheda({ StatiGlobali }) {
 
 
@@ -44,9 +46,14 @@ export default function CreaScheda({ StatiGlobali }) {
   const navigation = useNavigation();
 
   //Variabili di stato
-  const [nome, setNome] = useState("");
-  const [descrizione, setDescrizione] = useState("");
-  const [immagineUrl, setImmagineUrl] = useState("");
+  const [nomeCliente, setNomeCliente] = useState("");
+  const [tipsFinali, setTipsFinali] = useState("");
+    const [immagineUrl, setImmagineUrl] = useState("");
+    const [tipologia, setTipologia] = useState("")
+    const [seduteSettimanali, setSeduteSettimanali] = useState("")
+    const [durata, setDurata] = useState("")
+    const [scadenza, setScadenza] = useState("")
+      const [personal, setPersonal] = useState("");
 
   //VARIABILE DI STATO CHE MEMORIZZA L'IMMAGINE PRESA DALL'UTENTE
   const [newImage, setNewImage] = useState(null);
@@ -70,9 +77,14 @@ export default function CreaScheda({ StatiGlobali }) {
       // Il push necessita di una ref e un body quindi
       const body = {
         id: newSchedaRef.key.toString(),
-        nome: nome,
-        descrizione: descrizione,
-        immagine: imageUrl,
+        nomeCliente: nomeCliente,
+          tipsFinali: tipsFinali,
+        tipologia: tipologia,
+          immagine: imageUrl,
+          seduteSettimanali: seduteSettimanali,
+          durata: durata,
+          scadenza: scadenza,
+        personal:personal,
         data: Date.now(),
       };
 
@@ -139,9 +151,14 @@ export default function CreaScheda({ StatiGlobali }) {
 
   //Metodo per cancellare tutti i campi del form
   const svuotaCampi = () => {
-    setDescrizione("");
-    setNome("");
-    setImmagineUrl("");
+    setTipsFinali("");
+      setNomeCliente("");
+      setTipologia("")
+      setImmagineUrl("");
+      setSeduteSettimanali("");
+      setDurata("");
+      setScadenza("");
+      setPersonal("");
     if (immagineUrl) {
       deleteImg(immagineUrl);
     }
@@ -152,22 +169,54 @@ export default function CreaScheda({ StatiGlobali }) {
     <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={GlobalStyles.container}>
+          <View style={styles.containerScelta}>
+            <Text style={styles.titolo}>Compila la nuova scheda</Text>
+          </View>
           <View style={[styles.container, GlobalStyles.container]}>
             <View style={styles.contenitoreRegistrazione}>
-
-                          {/*FORM DI CREAZIONE SCHEDA  */}
-
-              <View style={styles.containerScelta}>
-                <Text style={styles.titolo}>
-                  Compila la nuova scheda
-                </Text>
-              </View>
+              {/*FORM DI CREAZIONE SCHEDA  */}
 
               <TextInput
                 style={GlobalStyles.input}
-                value={nome}
-                onChangeText={setNome}
-                placeholder="Titolo scheda"
+                value={nomeCliente}
+                onChangeText={setNomeCliente}
+                placeholder="Nome Cliente"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={tipologia}
+                onChangeText={setTipologia}
+                placeholder="Tipo di allenamento"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={seduteSettimanali}
+                onChangeText={setSeduteSettimanali}
+                placeholder="Numero Sedute settimanali"
+                keyboardType="numeric"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={durata}
+                onChangeText={setDurata}
+                placeholder="Durata allenamento"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={scadenza}
+                onChangeText={setScadenza}
+                placeholder="Data prevista fine scheda"
+              />
+
+              <TextInput
+                style={GlobalStyles.input}
+                value={personal}
+                onChangeText={setPersonal}
+                placeholder="Nome Personal Trainer"
               />
 
               <View style={styles.aggiuntaImg}>
@@ -187,9 +236,9 @@ export default function CreaScheda({ StatiGlobali }) {
 
               <TextInput
                 style={[GlobalStyles.input, styles.inputTesto]}
-                value={descrizione}
-                onChangeText={setDescrizione}
-                placeholder="Breve Descrizione"
+                value={tipsFinali}
+                onChangeText={setTipsFinali}
+                placeholder="Brevi tips finali"
                 multiline={true}
               />
 
@@ -215,12 +264,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 100,
+        marginBottom: 10,
+marginTop: 10
   },
 
   contenitoreRegistrazione: {
     backgroundColor: "#D3D3D3",
-    width: "80%",
+    width: "85%",
     padding: 15,
   },
 
@@ -248,7 +298,7 @@ const styles = StyleSheet.create({
   },
 
   titolo: {
-    color: "#1A1A2E",
+    color: "white",
     fontWeight: "bold",
     fontSize: 15,
     textAlign: "center",
@@ -278,7 +328,7 @@ const styles = StyleSheet.create({
   //INPUT
 
   inputTesto: {
-    height: 150,
+    height: 130,
   },
 
   inputImg: {
