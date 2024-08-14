@@ -38,7 +38,6 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
     StatiGlobali;
 
 
- console.log("questo è schede in tutteleschede", schede);
 
 
   const handleDettaglio = (scheda) => {

@@ -17,12 +17,6 @@ export default function Home({pag}) {
 
   const navigation = useNavigation();
 
-/*
-VEDI SE RIESCI A FARE IN MODO CHE LE IMMAGINI DEGLI ESERCIZI DI DEFAULT RIMANGANO INTOCCABILI
-
-*/
-
-
   return (
 
     

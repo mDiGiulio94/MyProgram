@@ -41,28 +41,26 @@ import {
 import { storage } from "./Firebase";
 
 export default function ModificaScheda({ StatiGlobali }) {
+  const route = useRoute();
 
-    const route = useRoute();
+//route per differenziare l'accesso se da tutti gli esercizi o se da dettaglio scheda
+  const fromDettaglioScheda = route.params?.fromDettaglioScheda || false;
 
   const { scheda } = route.params;
 
-
-  const { userId, PrendiSchede } = StatiGlobali;
+  const { userId, PrendiSchede, dettScheda } = StatiGlobali;
 
   const navigation = useNavigation();
 
   //Variabili di stato
   const [nomeCliente, setNomeCliente] = useState("");
   const [tipsFinali, setTipsFinali] = useState("");
-    const [immagine, setImmagine] = useState("");
-     const [tipologia, setTipologia] = useState("");
-     const [seduteSettimanali, setSeduteSettimanali] = useState("");
-     const [durata, setDurata] = useState("");
-     const [scadenza, setScadenza] = useState("");
-     const [personal, setPersonal] = useState("");
-
-
-
+  const [immagine, setImmagine] = useState("");
+  const [tipologia, setTipologia] = useState("");
+  const [seduteSettimanali, setSeduteSettimanali] = useState("");
+  const [durata, setDurata] = useState("");
+  const [scadenza, setScadenza] = useState("");
+  const [personal, setPersonal] = useState("");
 
   const [newImage, setNewImage] = useState(null);
 
@@ -72,10 +70,20 @@ export default function ModificaScheda({ StatiGlobali }) {
       // instaurare connessione al database
       const db = getDatabase();
       // crea la reference
-      const schedeRef = ref(
-        db,
-        "users/" + userId + "/SchedeAllenamenti/" + scheda.id
-      );
+      let schedeRef;
+      if (fromDettaglioScheda) {
+        schedeRef = ref(
+          db,
+          "users/" +
+            userId +
+            "/SchedeAllenamenti/" +
+            dettScheda.id +
+            "/esercizio"
+        );
+      } else {
+schedeRef = ref(db, "users/" + userId + "/SchedeAllenamenti/" + scheda.id);
+      }
+       
 
       // Se c'è una nuova immagine, caricala e aggiorna l'URL
       let imageUrl = immagine;
@@ -104,8 +112,13 @@ export default function ModificaScheda({ StatiGlobali }) {
       await update(schedeRef, body)
         .then(() => {
           console.log("dati scheda caricati");
+          if (fromDettaglioScheda) {
+             navigation.navigate("DettaglioScheda");
+          } else {
+navigation.navigate("TutteLeSchede");
+          }
           PrendiSchede();
-          navigation.navigate("TutteLeSchede");
+          
         })
         .catch((error) => {
           console.error("c'è stato errore, ", error);
@@ -133,10 +146,7 @@ export default function ModificaScheda({ StatiGlobali }) {
       const response = await fetch(uri);
       const blob = await response.blob();
       const filename = uri.substring(uri.lastIndexOf("/") + 1);
-      const storageReference = storageRef(
-        storage,
-        `imagesSchede/${filename}`
-      );
+      const storageReference = storageRef(storage, `imagesSchede/${filename}`);
       await uploadBytes(storageReference, blob);
       const url = await getDownloadURL(storageReference);
       console.log("Immagine caricata", url);
@@ -162,12 +172,12 @@ export default function ModificaScheda({ StatiGlobali }) {
   useEffect(() => {
     setNomeCliente(scheda.nomeCliente);
     setImmagine(scheda.immagine);
-      setTipsFinali(scheda.tipsFinali);
-      setTipologia(scheda.tipologia);
-       setSeduteSettimanali(scheda.seduteSettimanali);
-       setDurata(scheda.durata);
-       setScadenza(scheda.scadenza);
-       setPersonal(scheda.personal);
+    setTipsFinali(scheda.tipsFinali);
+    setTipologia(scheda.tipologia);
+    setSeduteSettimanali(scheda.seduteSettimanali);
+    setDurata(scheda.durata);
+    setScadenza(scheda.scadenza);
+    setPersonal(scheda.personal);
   }, []);
 
   return (
@@ -199,8 +209,8 @@ export default function ModificaScheda({ StatiGlobali }) {
                 style={GlobalStyles.input}
                 value={seduteSettimanali}
                 onChangeText={setSeduteSettimanali}
-                              placeholder="Sedute settimanali"
-                                 keyboardType="numeric"
+                placeholder="Sedute settimanali"
+                keyboardType="numeric"
               />
 
               <TextInput
@@ -256,7 +266,7 @@ export default function ModificaScheda({ StatiGlobali }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Footer pag="ModificaScheda" />
+      <Footer pag="ModificaScheda" fromDettaglioScheda1={fromDettaglioScheda} />
     </>
   );
 }

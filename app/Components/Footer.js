@@ -13,9 +13,15 @@ import List from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 
 
-export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioScheda }) {
+export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioScheda, origine ,fromDettaglioScheda1 }) {
 
- 
+  const TornaIndietro = () => {
+    if (origine === "DettaglioEsercizio")
+    { navigation.navigate("DettaglioEsercizio") }
+    else {
+      navigation.navigate("TuttiGliEsercizi")
+    }
+ }
 
   const navigation = useNavigation();
 
@@ -24,6 +30,9 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
         {/* Footer categorie */}
 
         {/* Footer esercizi */}
+
+        {/* ----------------------------FUNZIONA CORRETTAMENTE------------------------------------------------- */}
+
         {pag === "esercizi" && (
           <View style={styles.footer}>
             <TouchableOpacity
@@ -47,7 +56,12 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
           </View>
         )}
 
+        {/* ---------------------------------------------------------------- */}
+
         {/* Footer dettaglio Esercizi */}
+
+        {/* --------------------------FUNZIONA CORRETTAMENTE------------------------------------------------------ */}
+
         {pag === "Dettaglioesercizi" && (
           <View style={styles.footer}>
             <TouchableOpacity
@@ -73,7 +87,11 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
           </View>
         )}
 
+        {/* ----------------------------------------------------------------------------------- */}
+
         {/* FOOTER AGGIUNGI ESERCIZI */}
+
+        {/* ----------------------FUNZIONA CORRETTAMENTE------------------------------------------ */}
 
         {pag === "Nuovoesercizio" && (
           <View style={styles.footer}>
@@ -86,8 +104,7 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
               <AddEsercizio name="home" size={30} />
               <Text style={styles.text}>Home</Text>
             </TouchableOpacity>
-            
-            
+
             {fromDettaglioScheda && (
               <TouchableOpacity
                 style={styles.contenitore}
@@ -111,6 +128,31 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
                 <Text style={styles.text}>Torna Indietro</Text>
               </TouchableOpacity>
             )}
+          </View>
+        )}
+
+        {/* ------------------------------------------------------------------------------------- */}
+
+        {/* FOOTER MODIFICA ESERCIZIO */}
+        {pag === "ModificaEsercizio" && (
+          <View style={styles.footer}>
+            <TouchableOpacity
+              style={styles.contenitore}
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
+            >
+              <AddEsercizio name="home" size={30} />
+              <Text style={styles.text}>Home</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.contenitore}
+              onPress={TornaIndietro}
+            >
+              <RemoveEsercizio name="back" size={30} />
+              <Text style={styles.text}>Torna Indietro</Text>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -177,15 +219,30 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
               <AddEsercizio name="home" size={30} />
               <Text style={styles.text}>Home</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.contenitore}
-              onPress={() => {
-                navigation.navigate("TutteLeSchede");
-              }}
-            >
-              <RemoveEsercizio name="back" size={30} />
-              <Text style={styles.text}>Torna Indietro</Text>
-            </TouchableOpacity>
+
+            {fromDettaglioScheda1 && (
+              <TouchableOpacity
+                style={styles.contenitore}
+                onPress={() => {
+                  navigation.navigate("DettaglioScheda");
+                }}
+              >
+                <RemoveEsercizio name="back" size={30} />
+                <Text style={styles.text}>Torna Indietro</Text>
+              </TouchableOpacity>
+            )}
+
+            {!fromDettaglioScheda1 && (
+              <TouchableOpacity
+                style={styles.contenitore}
+                onPress={() => {
+                  navigation.navigate("TutteLeSchede");
+                }}
+              >
+                <RemoveEsercizio name="back" size={30} />
+                <Text style={styles.text}>Torna Indietro</Text>
+              </TouchableOpacity>
+            )}
           </View>
         )}
 
@@ -207,7 +264,9 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
             <TouchableOpacity
               style={styles.contenitore}
               onPress={() => {
-                navigation.navigate("TutteLeSchede");
+                navigation.navigate("TutteLeSchede", {
+                  fromDettaglioScheda1: true,
+                });
               }}
             >
               <RemoveEsercizio name="back" size={30} />

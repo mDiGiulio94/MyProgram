@@ -40,9 +40,11 @@ import { useRoute } from "@react-navigation/native";
 import AddImmagine from "react-native-vector-icons/MaterialIcons";
 
 export default function AggiungiEsercizio({ StatiGlobali }) {
-  const { userId, PrendiEsercizi } = StatiGlobali;
+  const { userId, PrendiEsercizi, dettScheda} = StatiGlobali;
 
   const navigation = useNavigation();
+
+  console.log( "questo è dettScheda in Aggiungi esercizio", dettScheda)
 
   //route per differenziare l'accesso se da tutti gli esercizi o se da dettaglio scheda
   const route = useRoute();
@@ -54,6 +56,8 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
   const [immagineUrl, setImmagineUrl] = useState("");
   const [serie, setSerie] = useState("");
   const [ripetizioni, setRipetizioni] = useState("")
+  const [recupero, setRecupero] = useState("");
+    const [intensita, setIntensita] = useState("");
 
   //VARIABILE DI STATO CHE MEMORIZZA L'IMMAGINE PRESA DALL'UTENTE
   const [newImage, setNewImage] = useState(null);
@@ -70,8 +74,17 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
 
       // instaurare connessione al database
       const db = getDatabase();
+      // ref esterna perché popolata in base all'if
+        let esercizioRef;
       // crea la reference
-      const esercizioRef = ref(db, "users/" + userId + "/tuttiEsercizi");
+      if (fromDettaglioScheda) {
+        esercizioRef = ref(db, "users/" + userId + "/SchedeAllenamenti/" + dettScheda.id + "/esercizio");
+
+        console.log( "questo è esercizio ref ", esercizioRef)
+      } else {
+            esercizioRef = ref(db, "users/" + userId + "/tuttiEsercizi");
+      }
+
       // crea il nuovo id
       const newEsercizioRef = push(esercizioRef);
 
@@ -83,14 +96,21 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
         immagine: imageUrl,
         serie: serie,
         ripetizioni: ripetizioni,
+        recupero: recupero,
+        intensita:intensita,
         data: Date.now(),
       };
 
       await set(newEsercizioRef, body)
         .then(() => {
           console.log("dati esercizio caricati");
+            if (fromDettaglioScheda) {
+              navigation.navigate("DettaglioScheda");
+            } else {
+              navigation.navigate("TuttiGliEsercizi");
+            }
           PrendiEsercizi();
-          navigation.navigate("TuttiGliEsercizi");
+
         })
         .catch((error) => {
           console.error(error);
@@ -152,8 +172,10 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
     setDescrizione("");
     setNome("");
     setSerie("");
+    setRecupero("");
     setRipetizioni("");
     setImmagineUrl("");
+    setIntensita("")
     if (immagineUrl) {
       deleteImg(immagineUrl);
     }
@@ -186,8 +208,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
                     style={GlobalStyles.input}
                     value={serie}
                     onChangeText={setSerie}
-                    placeholder="Numero serie"
-                    keyboardType="numeric"
+                    placeholder="Serie"
                   />
 
                   <TextInput
@@ -197,6 +218,19 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
                     placeholder="Numero Ripetizioni"
                     keyboardType="numeric"
                   />
+                  <TextInput
+                    style={GlobalStyles.input}
+                    value={intensita}
+                    onChangeText={setIntensita}
+                    placeholder="Intensità"
+                  />
+
+                  <TextInput
+                    style={GlobalStyles.input}
+                    value={recupero}
+                    onChangeText={setRecupero}
+                    placeholder="Recupero"
+                  />
                 </>
               )}
               <View style={styles.aggiuntaImg}>
@@ -204,7 +238,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
                   style={[GlobalStyles.input, styles.inputImg]}
                   value={newImage ? newImage.uri : immagineUrl}
                   onChangeText={setImmagineUrl}
-                  placeholder="Aggiungi Url"
+                  placeholder="Aggiungi Immagine"
                 />
                 <TouchableOpacity onPress={selezioneImmagine}>
                   <AddImmagine
@@ -214,13 +248,17 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
                 </TouchableOpacity>
               </View>
 
-              <TextInput
-                style={[GlobalStyles.input, styles.inputTesto]}
-                value={descrizione}
-                onChangeText={setDescrizione}
-                placeholder="Breve Descrizione"
-                multiline={true}
-              />
+              {!fromDettaglioScheda && (
+                <>
+                  <TextInput
+                    style={[GlobalStyles.input, styles.inputTesto]}
+                    value={descrizione}
+                    onChangeText={setDescrizione}
+                    placeholder="Breve Descrizione"
+                    multiline={true}
+                  />
+                </>
+              )}
 
               <View style={styles.containerBottoni}>
                 <TouchableOpacity style={[styles.btn]} onPress={salvaEsercizio}>
@@ -235,7 +273,7 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Footer pag="Nuovoesercizio" fromDettaglioScheda={fromDettaglioScheda}/>
+      <Footer pag="Nuovoesercizio" fromDettaglioScheda={fromDettaglioScheda} />
     </>
   );
 }

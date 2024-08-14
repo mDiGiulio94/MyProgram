@@ -9,40 +9,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-//pagine
-import Footer from "./Components/Footer";
-
 //Stili
 import { GlobalStyles } from "./GlobalStyles";
 
-
-//Import navigazione
-import { useNavigation } from "@react-navigation/native";
-
+//Componenti
 import MyTable from "./Components/Tabella"
+import Footer from "./Components/Footer";
 
 export default function DettaglioScheda({ StatiGlobali }) {
  
-  const { dettScheda } = StatiGlobali;
+  const { dettScheda, userId, PrendiEsercizi } = StatiGlobali;
 
 
-  const navigation = useNavigation()
 
-
-  
-  /*
-  Chiedi a danilo come differenziare i vari footer
-  
-  */
 
   return (
     <>
       <View style={GlobalStyles.container}>
         <View style={styles.containerScelta}>
-          <Text style={styles.titolo}>Dettaglio Scheda</Text>
+          <Text style={styles.titolo}>Personalizza Scheda</Text>
         </View>
         <ScrollView>
-          <MyTable dettScheda={dettScheda} />
+          <MyTable dettScheda={dettScheda} userId={userId} PrendiEsercizi={PrendiEsercizi} />
         </ScrollView>
       </View>
 

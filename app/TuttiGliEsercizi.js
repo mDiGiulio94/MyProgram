@@ -18,13 +18,6 @@ import{  ref as storageRef, deleteObject } from 'firebase/storage'
 import { storage } from "./Firebase";
 
 
-/*
-
-ANCHE QUI FUNZIONA TUTTO MA CHIEDI A DANILO PERCHè IN QUESTO CASO QUANDO PASSO I PARAMETRI AL
-PULSANTE SE IMMAGINE NON STA DOPO ID IL PERCORSO NON FUNZIONA
-
-*/
-
 export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
 
   const { tuttiEsercizi, userId, PrendiEsercizi, setDettEsercizio } =

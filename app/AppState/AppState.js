@@ -23,6 +23,7 @@ export default function AppState() {
   //Variabile che contiene il dettaglio
   const [dettScheda, setDettScheda] = useState([]);
 
+
   //Metodo per la presa e stampa DEGLI ESERCIZI DALLA TABELLA DEGLI UTENTI
 
   const PrendiEsercizi = () => {
@@ -57,8 +58,10 @@ export default function AppState() {
       db,
       "users/" + auth.currentUser.uid + "/SchedeAllenamenti"
     );
+
     //presa della tabella categorie e copia con snapshot
     get(schedeRef)
+
       .then((snapShot) => {
         if (snapShot.exists) {
           //assegna a tutti esercizi il valore della copia
@@ -73,11 +76,18 @@ export default function AppState() {
       });
   };
 
+
+
+
+
+  console.log("questo è schede in app state", schede)
+
   useEffect(() => {
     const unsubscibe = onAuthStateChanged(auth, (user) => {
       if (user) {
         PrendiEsercizi();
         PrendiSchede();
+
         setUserId(auth.currentUser.uid);
       }
     });
@@ -98,7 +108,9 @@ export default function AppState() {
     setSchede,
     PrendiSchede,
     dettScheda,
-    setDettScheda
+    setDettScheda,
+
+
   };
 
   return <AppNavigation StatiGlobali={StatiGlobali} />;
