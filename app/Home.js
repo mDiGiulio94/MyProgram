@@ -1,7 +1,7 @@
 //Librerie
 import React from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 
 //Stili
@@ -10,12 +10,14 @@ import { GlobalStyles } from "./GlobalStyles";
 //Pagine
 
 
+
 export default function Home({pag}) {
 
   const Registro = require("../assets/images/Allenamenti.jpg");
   const Scheda = require("../assets/images/Stampa-scheda.jpg");
 
   const navigation = useNavigation();
+
 
   return (
 
@@ -29,7 +31,7 @@ export default function Home({pag}) {
         <View style={styles.rowContainer}>
           <TouchableOpacity
             style={styles.cards}
-            onPress={() => navigation.navigate("CreaScheda")}
+            onPress={() => navigation.navigate("CreaScheda", {origineX : "Home"})}
           >
             <Image source={Registro} style={styles.ImgSced} />
             <Text style={styles.testo}>Nuova Scheda</Text>

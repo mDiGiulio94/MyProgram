@@ -31,6 +31,10 @@ import {
 } from "firebase/storage";
 import { storage } from "./Firebase";
 
+
+//useRoute per il passaggio di dati
+import { useRoute } from "@react-navigation/native";
+
 //Import Footer
 import Footer from "./Components/Footer";
 
@@ -39,21 +43,33 @@ import AddImmagine from "react-native-vector-icons/MaterialIcons";
 
 
 export default function CreaScheda({ StatiGlobali }) {
+  const route = useRoute();
+  /*
+   Il perché non ti funzionava stava tutto nel fatto che prima dovevi andare nella zona che gestisce l'accesso alla pagina CreaScheda sia in Home che in Tutte le schede ( o solo in una delle due se si usa una booleana),
 
+   Esempio:
 
-    const { userId, PrendiSchede } = StatiGlobali;
+   onPress={() => {
+               navigation.navigate("CreaScheda", {origineX : "TutteLeSchede"});
+
+              }}
+dopo di che passare in CreaScheda potevi sfruttare l'useParams in modo tale da estrapolare il valore di origine della provenienza, e passarlo al footer, da li creare una funzione che alterna i casi e finalmente funziona
+   */
+  const { origineX } = route.params || {};
+
+  const { userId, PrendiSchede } = StatiGlobali;
 
   const navigation = useNavigation();
 
   //Variabili di stato
   const [nomeCliente, setNomeCliente] = useState("");
   const [tipsFinali, setTipsFinali] = useState("");
-    const [immagineUrl, setImmagineUrl] = useState("");
-    const [tipologia, setTipologia] = useState("")
-    const [seduteSettimanali, setSeduteSettimanali] = useState("")
-    const [durata, setDurata] = useState("")
-    const [scadenza, setScadenza] = useState("")
-      const [personal, setPersonal] = useState("");
+  const [immagineUrl, setImmagineUrl] = useState("");
+  const [tipologia, setTipologia] = useState("");
+  const [seduteSettimanali, setSeduteSettimanali] = useState("");
+  const [durata, setDurata] = useState("");
+  const [scadenza, setScadenza] = useState("");
+  const [personal, setPersonal] = useState("");
 
   //VARIABILE DI STATO CHE MEMORIZZA L'IMMAGINE PRESA DALL'UTENTE
   const [newImage, setNewImage] = useState(null);
@@ -78,13 +94,13 @@ export default function CreaScheda({ StatiGlobali }) {
       const body = {
         id: newSchedaRef.key.toString(),
         nomeCliente: nomeCliente,
-          tipsFinali: tipsFinali,
+        tipsFinali: tipsFinali,
         tipologia: tipologia,
-          immagine: imageUrl,
-          seduteSettimanali: seduteSettimanali,
-          durata: durata,
-          scadenza: scadenza,
-        personal:personal,
+        immagine: imageUrl,
+        seduteSettimanali: seduteSettimanali,
+        durata: durata,
+        scadenza: scadenza,
+        personal: personal,
         data: Date.now(),
       };
 
@@ -123,10 +139,7 @@ export default function CreaScheda({ StatiGlobali }) {
       //blob contenitore di grandi quantità di dati di qualsiasi genere in formato binario
       const blob = await response.blob();
       const filename = uri.substring(uri.lastIndexOf("/") + 1);
-      const storageReference = storageRef(
-        storage,
-        `imagesSchede/${filename}`
-      );
+      const storageReference = storageRef(storage, `imagesSchede/${filename}`);
       await uploadBytes(storageReference, blob);
       const url = await getDownloadURL(storageReference);
       console.log("immagine caricata", url);
@@ -152,13 +165,13 @@ export default function CreaScheda({ StatiGlobali }) {
   //Metodo per cancellare tutti i campi del form
   const svuotaCampi = () => {
     setTipsFinali("");
-      setNomeCliente("");
-      setTipologia("")
-      setImmagineUrl("");
-      setSeduteSettimanali("");
-      setDurata("");
-      setScadenza("");
-      setPersonal("");
+    setNomeCliente("");
+    setTipologia("");
+    setImmagineUrl("");
+    setSeduteSettimanali("");
+    setDurata("");
+    setScadenza("");
+    setPersonal("");
     if (immagineUrl) {
       deleteImg(immagineUrl);
     }
@@ -255,7 +268,7 @@ export default function CreaScheda({ StatiGlobali }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Footer pag="NuovaScheda" />
+      <Footer pag="NuovaScheda" origineX={origineX} />
     </>
   );
 }

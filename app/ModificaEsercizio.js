@@ -43,7 +43,9 @@ import { storage } from "./Firebase";
 export default function ModificaEsercizio({ StatiGlobali }) {
   const route = useRoute();
 
+  //definisci il parametro origine e passalo come prop al footer
   const { esercizio, origine } = route.params;
+  
 
   const { userId, PrendiEsercizi } = StatiGlobali;
 
@@ -89,7 +91,7 @@ export default function ModificaEsercizio({ StatiGlobali }) {
         .then(() => {
           console.log("dati esercizio caricati");
           PrendiEsercizi();
-          navigation.navigate( origine || "TuttiGliEsercizi");
+          navigation.navigate("TuttiGliEsercizi");
         })
         .catch((error) => {
           console.error("c'è stato errore, ", error);
@@ -205,7 +207,7 @@ export default function ModificaEsercizio({ StatiGlobali }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Footer pag="ModificaEsercizio" origine={origine} />
+      <Footer pag="ModificaEsercizio" origine= {origine} />
     </>
   );
 }

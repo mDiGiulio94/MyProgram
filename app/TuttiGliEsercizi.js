@@ -33,6 +33,7 @@ export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
   const deleteEsercizio = (itemId, immagineUrl) => {
 
 
+
     const db = getDatabase();
     const esercizioRef = ref(
       db,
@@ -96,6 +97,8 @@ export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
                       onPress={() => {
                         navigation.navigate("ModificaEsercizio", {
                           esercizio: esercizio,
+                          //aggiungo origine per differenziazione
+                          origine: true
                         });
                       }}
                     >

@@ -16,9 +16,13 @@ import { GlobalStyles } from "./GlobalStyles";
 import MyTable from "./Components/Tabella"
 import Footer from "./Components/Footer";
 
+import { useRoute } from "@react-navigation/native";
+
 export default function DettaglioScheda({ StatiGlobali }) {
  
   const { dettScheda, userId, PrendiEsercizi } = StatiGlobali;
+
+const route = useRoute()
 
 
 
@@ -37,6 +41,7 @@ export default function DettaglioScheda({ StatiGlobali }) {
       <Footer
         pag="DettaglioScheda"
         dettScheda={dettScheda}
+        
   
       />
     </>

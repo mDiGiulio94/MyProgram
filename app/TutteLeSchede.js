@@ -38,8 +38,6 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
     StatiGlobali;
 
 
-
-
   const handleDettaglio = (scheda) => {
     setDettScheda(scheda);
     console.log(scheda);
@@ -108,8 +106,9 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
                     <TouchableOpacity
                       style={styles.Icone}
                       onPress={() => {
-                        navigation.navigate("ModificaScheda", {
+                        navigation.navigate("ModificaScheda",   {
                           scheda: scheda,
+                          origineY : true
                         });
                       }}
                     >
@@ -120,11 +119,7 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
                     <TouchableOpacity
                       style={styles.Icone}
                       onPress={() => {
-                        deleteScheda(
-                          scheda.id,
-                          scheda.immagine,
-                          scheda.nome
-                        );
+                        deleteScheda(scheda.id, scheda.immagine, scheda.nome);
                       }}
                     >
                       <Text style={styles.testoCard}>Rimuovi</Text>
@@ -143,7 +138,8 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
             <TouchableOpacity
               style={[styles.vuoto]}
               onPress={() => {
-                navigation.navigate("CreaScheda");
+               navigation.navigate("CreaScheda", {origineX : "TutteLeSchede"});
+
               }}
             >
               <Text style={styles.titolo}>
@@ -151,7 +147,7 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
               </Text>
             </TouchableOpacity>
           </View>
-          <Footer pag="TutteLeSchede" />
+          <Footer pag="TutteLeSchede"  />
         </>
       )}
     </>

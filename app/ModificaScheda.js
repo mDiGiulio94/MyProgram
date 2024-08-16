@@ -46,7 +46,7 @@ export default function ModificaScheda({ StatiGlobali }) {
 //route per differenziare l'accesso se da tutti gli esercizi o se da dettaglio scheda
   const fromDettaglioScheda = route.params?.fromDettaglioScheda || false;
 
-  const { scheda } = route.params;
+  const { scheda, origineY } = route.params;
 
   const { userId, PrendiSchede, dettScheda } = StatiGlobali;
 
@@ -83,7 +83,6 @@ export default function ModificaScheda({ StatiGlobali }) {
       } else {
 schedeRef = ref(db, "users/" + userId + "/SchedeAllenamenti/" + scheda.id);
       }
-       
 
       // Se c'è una nuova immagine, caricala e aggiorna l'URL
       let imageUrl = immagine;
@@ -266,7 +265,7 @@ navigation.navigate("TutteLeSchede");
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Footer pag="ModificaScheda" fromDettaglioScheda1={fromDettaglioScheda} />
+      <Footer pag="ModificaScheda" origineY={origineY} />
     </>
   );
 }
