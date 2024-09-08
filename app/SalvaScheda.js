@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-
 //navigazione
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,15 +16,11 @@ import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "./GlobalStyles";
 
 //Componenti
-import MyTable from "./Components/Tabella"
+import MyTable from "./Components/Tabella";
 import Footer from "./Components/Footer";
 
-
-
 export default function DettaglioScheda({ StatiGlobali }) {
- 
-  const { dettScheda, userId, PrendiEsercizi} =
-    StatiGlobali;
+  const { dettScheda, userId, PrendiEsercizi } = StatiGlobali;
 
   const navigation = useNavigation();
 
@@ -42,12 +37,6 @@ export default function DettaglioScheda({ StatiGlobali }) {
             PrendiEsercizi={PrendiEsercizi}
           />
         </ScrollView>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("SalvaScheda")}
-          style={styles.saveButton}
-        >
-          <Text>Salva PDF</Text>
-        </TouchableOpacity>
       </View>
 
       <Footer pag="DettaglioScheda" dettScheda={dettScheda} />
@@ -97,11 +86,4 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
 
-  saveButton: {
-    margin: 10,
-    alignSelf: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 8, // Ridotto il padding
-    borderRadius: 5,
-  },
 });

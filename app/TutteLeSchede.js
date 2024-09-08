@@ -50,8 +50,6 @@ export default function TutteLeSchede({ StatiGlobali, navigation }) {
       db,
       "users/" + userId + "/SchedeAllenamenti/" + itemId
     );
-
-    console.log("questo è schedeRef", schedeRef);
     remove(schedeRef)
       .then(() => {
         console.log("esercizio rimosso con successo");

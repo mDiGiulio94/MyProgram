@@ -23,6 +23,7 @@ export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
   const { tuttiEsercizi, userId, PrendiEsercizi, setDettEsercizio } =
     StatiGlobali;
 
+// Prova a recuperare l'id tramite una funzione simile
   const handleDettaglio = (esercizio) => {
     setDettEsercizio(esercizio);
     console.log(esercizio);
@@ -39,8 +40,6 @@ export default function TuttiGliEsercizi({ StatiGlobali, navigation }) {
       db,
       "users/" + userId + "/tuttiEsercizi/" + itemId
     );
-
-    console.log("questo è esercizioREf", esercizioRef);
     remove(esercizioRef)
       .then(() => {
         console.log("esercizio rimosso con successo");

@@ -202,6 +202,8 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
 
       {/* FOOTER TUTTE LE SCHEDE */}
 
+      {/*---------------------Funziona Correttamente----------------------------  */}
+
       {pag === "TutteLeSchede" && (
         <View style={styles.footer}>
           <TouchableOpacity
@@ -253,6 +255,8 @@ export default function Footer({ pag, dettEsercizio, dettScheda, fromDettaglioSc
       )}
 
       {/* Footer dettaglio Scheda */}
+
+      {/* -----------------------------Funziona Correttamente------------------------------------- */}
 
       {pag === "DettaglioScheda" && (
         <View style={styles.footer}>

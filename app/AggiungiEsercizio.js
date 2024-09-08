@@ -44,11 +44,19 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
 
   const navigation = useNavigation();
 
-  console.log( "questo è dettScheda in Aggiungi esercizio", dettScheda)
+ 
 
   //route per differenziare l'accesso se da tutti gli esercizi o se da dettaglio scheda
   const route = useRoute();
   const fromDettaglioScheda = route.params?.fromDettaglioScheda || false;
+
+  const { giorniId } = route.params || {};
+  
+  console.log("Route params:", route.params);
+
+  // problema, giornoId continua ad essere indefinito
+
+  console.log("questo è giornoId", giorniId)
 
   //Variabili di stato
   const [nome, setNome] = useState("");
@@ -78,7 +86,10 @@ export default function AggiungiEsercizio({ StatiGlobali }) {
         let esercizioRef;
       // crea la reference
       if (fromDettaglioScheda) {
-        esercizioRef = ref(db, "users/" + userId + "/SchedeAllenamenti/" + dettScheda.id + "/esercizio");
+        esercizioRef = ref(
+          db,
+          `users/${userId}/SchedeAllenamenti/${dettScheda.id}/giorni/${giorniId}/esercizi`
+        );
 
         console.log( "questo è esercizio ref ", esercizioRef)
       } else {

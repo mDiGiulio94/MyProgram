@@ -16,6 +16,7 @@ import CreaScheda from "../CreaScheda"
 import TutteLeSchede from "../TutteLeSchede"
 import ModificaScheda from "../ModificaScheda"
 import DettaglioScheda from "../DettaglioScheda"
+import SalvaScheda from "../SalvaScheda"
 
 //gestione Autenticazione
 import { auth } from "../Firebase";
@@ -84,6 +85,11 @@ export default function AppNavigation({ StatiGlobali }) {
             <Stack.Screen name="DettaglioScheda">
               {(props) => (
                 <DettaglioScheda {...props} StatiGlobali={StatiGlobali} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="SalvaScheda">
+              {(props) => (
+                <SalvaScheda {...props} StatiGlobali={StatiGlobali} />
               )}
             </Stack.Screen>
           </Stack.Navigator>

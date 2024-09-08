@@ -117,7 +117,7 @@ schedeRef = ref(db, "users/" + userId + "/SchedeAllenamenti/" + scheda.id);
 navigation.navigate("TutteLeSchede");
           }
           PrendiSchede();
-          
+
         })
         .catch((error) => {
           console.error("c'è stato errore, ", error);

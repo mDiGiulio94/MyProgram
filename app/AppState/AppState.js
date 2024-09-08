@@ -24,6 +24,7 @@ export default function AppState() {
   const [dettScheda, setDettScheda] = useState([]);
 
 
+
   //Metodo per la presa e stampa DEGLI ESERCIZI DALLA TABELLA DEGLI UTENTI
 
   const PrendiEsercizi = () => {
@@ -77,12 +78,7 @@ export default function AppState() {
   };
 
 
-
-
-
-  console.log("questo è schede in app state", schede)
-
-  useEffect(() => {
+ useEffect(() => {
     const unsubscibe = onAuthStateChanged(auth, (user) => {
       if (user) {
         PrendiEsercizi();
@@ -109,9 +105,10 @@ export default function AppState() {
     PrendiSchede,
     dettScheda,
     setDettScheda,
-
-
+   
   };
 
   return <AppNavigation StatiGlobali={StatiGlobali} />;
 }
+
+
